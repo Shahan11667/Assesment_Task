@@ -11,6 +11,7 @@ use App\Services\OrderService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Artisan;
 
 class OrderServiceTest extends TestCase
 {
@@ -21,6 +22,8 @@ class OrderServiceTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+    //  Note the below line of code is used to fresh the migration for running tests after the first time 
+        Artisan::call('migrate:fresh'); 
 
         $this->merchant = Merchant::factory()
             ->for(User::factory())
