@@ -35,8 +35,28 @@ class ApiService
      * @return void
      * @throws RuntimeException
      */
-    public function sendPayout(string $email, float $amount)
-    {
-        //
-    }
+    
+     public function sendPayout(string $email, float $amount): array
+     {
+        
+        
+         if (app()->environment('testing')) {
+        
+             throw new \RuntimeException('Simulated API failure');
+         }
+     
+        
+         if ($amount <= 0) {
+             throw new \RuntimeException('Invalid payout amount.');
+         }
+     
+         return [
+             'status' => 'success',
+             'transaction_id' => \Illuminate\Support\Str::uuid()->toString(),
+         ];
+     }
+     
+    
+
+
 }

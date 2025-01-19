@@ -23,7 +23,8 @@ class Merchant extends Model
         'domain',
         'display_name',
         'turn_customers_into_affiliates',
-        'default_commission_rate'
+        'default_commission_rate',
+    'user_id',
     ];
 
     public function user(): BelongsTo

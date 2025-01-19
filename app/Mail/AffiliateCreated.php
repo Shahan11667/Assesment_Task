@@ -26,8 +26,12 @@ class AffiliateCreated extends Mailable
      *
      * @return $this
      */
+    // public function build()
+    // {
+    //     return $this->view('view.name');
+    // }
     public function build()
     {
-        return $this->view('view.name');
+        return $this->view('emails.affiliate_created'); // Updated view path
     }
 }

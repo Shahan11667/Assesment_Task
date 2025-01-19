@@ -13,6 +13,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use RuntimeException;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Log;
 
 class PayoutOrderJobTest extends TestCase
 {
@@ -30,20 +31,23 @@ class PayoutOrderJobTest extends TestCase
             ->create();
     }
 
-    public function test_calls_api()
-    {
-        $this->mock(ApiService::class)
-            ->shouldReceive('sendPayout')
-            ->once()
-            ->with($this->order->affiliate->user->email, $this->order->commission_owed);
+        public function test_calls_api()
+        {
+            $this->mock(ApiService::class)
+                ->shouldReceive('sendPayout')
+                ->once()
+                ->with($this->order->affiliate->user->email, $this->order->commission_owed);
 
-        dispatch(new PayoutOrderJob($this->order));
+            dispatch(new PayoutOrderJob($this->order));
 
-        $this->assertDatabaseHas('orders', [
-            'id' => $this->order->id,
-            'payout_status' => Order::STATUS_PAID
-        ]);
-    }
+            $this->assertDatabaseHas('orders', [
+                'id' => $this->order->id,
+                'payout_status' => Order::STATUS_PAID
+            ]);
+        }
+
+
+
 
     public function test_rolls_back_if_exception_thrown()
     {
